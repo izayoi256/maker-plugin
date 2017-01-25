@@ -25,6 +25,16 @@ Plugin\Maker\Entity\ProductMaker:
         update_date:
             type: datetime
             nullable: false
+        other_url:
+            type: text
+            nullable: true
+        other_url_target:
+            type: text
+            nullable: true
+        disabled:
+            type: smallint
+            options:
+                default: '0'
     manyToOne:
         Maker:
             targetEntity: Plugin\Maker\Entity\Maker

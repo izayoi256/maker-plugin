@@ -45,6 +45,21 @@ class ProductMaker extends AbstractEntity
     private $Maker;
 
     /**
+     * @var string
+     */
+    private $other_url;
+
+    /**
+     * @var string
+     */
+    private $other_url_target;
+
+    /**
+     * @var int
+     */
+    private $disabled;
+
+    /**
      * Set Id.
      *
      * @param int $id
@@ -176,5 +191,71 @@ class ProductMaker extends AbstractEntity
         }
 
         return $this->Maker;
+    }
+
+    /**
+     * Set other url.
+     *
+     * @param string $otherUrl
+     * @return ProductMaker
+     */
+    public function setOtherUrl($otherUrl)
+    {
+        $this->other_url = $otherUrl;
+        return $this;
+    }
+
+    /**
+     * Get other url.
+     *
+     * @return string
+     */
+    public function getOtherUrl()
+    {
+        return $this->other_url;
+    }
+
+    /**
+     * Set other url target.
+     *
+     * @param string $otherUrlTarget
+     * @return ProductMaker
+     */
+    public function setOtherUrlTarget($otherUrlTarget)
+    {
+        $this->other_url_target = $otherUrlTarget;
+        return $this;
+    }
+
+    /**
+     * Get other url target.
+     *
+     * @return string
+     */
+    public function getOtherUrlTarget()
+    {
+        return $this->other_url_target;
+    }
+
+    /**
+     * Set disabled.
+     *
+     * @param int $disabled
+     * @return ProductMaker
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+        return $this;
+    }
+
+    /**
+     * Check if disabled.
+     *
+     * @return int
+     */
+    public function isDisabled()
+    {
+        return $this->disabled;
     }
 }
