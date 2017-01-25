@@ -230,7 +230,6 @@ class Maker extends CommonEvent
         if (!$Maker) {
             log_info('Event: maker not found.', array('Product maker id' => $ProductMaker->getId()));
             // 商品メーカーマスタにデータが存在しないまたは削除されていれば無視する
-            return;
         }
 
         /**
@@ -247,10 +246,14 @@ class Maker extends CommonEvent
 
         $twigSource = $this->renderPosition($twigSource, $twigAppend, $this->makerTag);
 
+        $twigAppend = $twig->getLoader()->getSource('Maker/Resource/template/default/detail_other_url.twig');
+        $twigSource = $this->renderPosition($twigSource, $twigAppend, $this->otherUrlTag);
+
         $event->setSource($twigSource);
 
-        $parameters['maker_name'] = $ProductMaker->getMaker()->getName();
+        $parameters['maker_name'] = $Maker ? $Maker->getName() : '';
         $parameters['maker_url'] = $ProductMaker->getMakerUrl();
+        $parameters['ProductMaker'] = $ProductMaker;
         $event->setParameters($parameters);
         log_info('Event: product maker render success.', array('Product id' => $ProductMaker->getId()));
         log_info('Event: product maker hook into the product detail end.');

@@ -26,6 +26,8 @@ class CommonEvent
      */
     protected $makerTag = '<!--# maker-plugin-tag #-->';
 
+    protected $otherUrlTag = '<!--# maker-plugin-other-url-tag #-->';
+
     /**
      * AbstractEvent constructor.
      * @param \Silex\Application $app
@@ -61,5 +63,20 @@ class CommonEvent
         }
 
         return $html;
+    }
+
+    /**
+     * @param string $html
+     * @param string $part
+     * @param string $otherUrlTag
+     * @return string
+     */
+    protected function renderOtherUrl($html, $part, $otherUrlTag = '')
+    {
+        if (!strlen($otherUrlTag)) {
+            $otherUrlTag = $this->otherUrlTag;
+        }
+
+        return str_replace($otherUrlTag, $otherUrlTag . $part, $html);
     }
 }
