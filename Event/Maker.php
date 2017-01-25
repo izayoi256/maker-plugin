@@ -17,6 +17,7 @@ use Eccube\Common\Constant;
 use Eccube\Event\TemplateEvent;
 use Plugin\Maker\Entity\ProductMaker;
 use Plugin\Maker\Repository\ProductMakerRepository;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -45,6 +46,8 @@ class Maker extends CommonEvent
         $builder->remove('maker')
             ->remove('maker_url');
 
+        $target = '_blank';
+
         // Add new extension
         $builder
             ->add('plg_maker', 'entity', array(
@@ -68,7 +71,39 @@ class Maker extends CommonEvent
                 'attr' => array(
                     'placeholder' => $this->app->trans('admin.plugin.maker.placeholder.url'),
                 ),
-            ));
+            ))
+            ->add('plg_other_url', 'text', array(
+                'label' => 'その他のURL',
+                'required' => false,
+                'constraints' => array(
+                    new Assert\Url(),
+                ),
+                'mapped' => false,
+            ))
+            ->add('plg_other_url_target', 'checkbox', array(
+                'label' => 'その他のURLを別のウィンドウで開く',
+                'required' => false,
+                'mapped' => false,
+                'value' => $target,
+            ))
+            ->add('plg_disabled', 'choice', array(
+                'label' => false,
+                'expanded' => true,
+                'choices' => array(
+                    Constant::DISABLED => '有効',
+                    Constant::ENABLED => '無効',
+                ),
+                'mapped' => false,
+            ))
+        ;
+        $builder->get('plg_other_url_target')->addModelTransformer(new CallbackTransformer(
+            function ($string) use ($target) {
+                return $string == $target;
+            },
+            function ($bool) use ($target) {
+                return $bool ? $target : '';
+            }
+        ));
 
         /**
          * @var Product $Product
@@ -97,6 +132,9 @@ class Maker extends CommonEvent
 
         $builder->get('plg_maker')->setData($ProductMaker->getMaker());
         $builder->get('plg_maker_url')->setData($ProductMaker->getMakerUrl());
+        $builder->get('plg_other_url')->setData($ProductMaker->getOtherUrl());
+        $builder->get('plg_other_url_target')->setData($ProductMaker->getOtherUrlTarget());
+        $builder->get('plg_disabled')->setData($ProductMaker->isDisabled());
         log_info('Event: product maker hook into the product render end.');
     }
 
@@ -132,23 +170,17 @@ class Maker extends CommonEvent
         }
 
         $maker = $form->get('plg_maker')->getData();
-        if (!$maker) {
-            if ($ProductMaker->getId()) {
-                log_info('Event: product maker removed', array('Product maker id' => $ProductMaker->getId()));
-                $this->app['orm.em']->remove($ProductMaker);
-                $this->app['orm.em']->flush($ProductMaker);
-            }
-
-            return;
-        }
-
         $makerUrl = $form->get('plg_maker_url')->getData();
 
         $ProductMaker
             ->setId($Product->getId())
+            ->setMaker($maker)
             ->setMakerUrl($makerUrl)
             ->setDelFlg(Constant::DISABLED)
-            ->setMaker($maker);
+            ->setOtherUrl($form->get('plg_other_url')->getData())
+            ->setOtherUrlTarget($form->get('plg_other_url_target')->getData())
+            ->setDisabled($form->get('plg_disabled')->getData())
+        ;
         /**
          * @var EntityRepository $this->app['orm.em']
          */

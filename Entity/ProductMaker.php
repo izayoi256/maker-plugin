@@ -174,7 +174,7 @@ class ProductMaker extends AbstractEntity
      *
      * @return $this
      */
-    public function setMaker(Maker $maker)
+    public function setMaker(Maker $maker = null)
     {
         $this->Maker = $maker;
 
