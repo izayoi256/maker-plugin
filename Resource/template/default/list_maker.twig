@@ -1,0 +1,21 @@
+{#
+/*
+ * This file is part of the ProductExternalLink plugin
+ *
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+#}
+
+{% if pel_ProductMakers[Product.id] is not empty and pel_ProductMakers[Product.id].Maker is not empty %}
+    {% set pel_ProductMaker = pel_ProductMakers[Product.id] %}
+    <div class="plugin_maker_code">
+        {% if pel_ProductMaker.maker_url|length > 0 %}
+            <p class="item_code">メーカー： <a href="{{ pel_ProductMaker.maker_url }}" target="_blank">{{ pel_ProductMaker.Maker.name }}</a></p>
+        {% else %}
+            <p class="item_code">メーカー： {{ pel_ProductMaker.Maker.name }}</p>
+        {% endif %}
+    </div>
+{% endif %}

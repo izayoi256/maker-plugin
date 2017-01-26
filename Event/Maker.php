@@ -258,4 +258,46 @@ class Maker extends CommonEvent
         log_info('Event: product maker render success.', array('Product id' => $ProductMaker->getId()));
         log_info('Event: product maker hook into the product detail end.');
     }
+
+    /**
+     * New event function on version >= 3.0.9 (new hook point)
+     * Product detail render (front).
+     *
+     * @param TemplateEvent $event
+     */
+    public function onRenderProductList(TemplateEvent $event)
+    {
+        log_info('Event: product maker hook into the product list start.');
+
+        $parameters = $event->getParameters();
+        /** @var Product[] $Products */
+        $Products = $parameters['pagination'];
+
+        if (!$Products) {
+            return;
+        }
+
+        $pel_ProductMakers = array();
+
+        foreach ($Products as $Product) {
+            $pel_ProductMakers[$Product->getId()] = $this->app['eccube.plugin.pel.repository.product_maker']->find($Product);
+        }
+
+        /** @var \Twig_Environment $twig */
+        $twig = $this->app['twig'];
+        $twigSource = $event->getSource();
+
+        $twigAppend = $twig->getLoader()->getSource('ProductExternalLink/Resource/template/default/list_maker.twig');
+        $twigSource = $this->renderPosition($twigSource, $twigAppend, $this->makerTag);
+
+        $twigAppend = $twig->getLoader()->getSource('ProductExternalLink/Resource/template/default/list_other_url.twig');
+        $twigSource = $this->renderPosition($twigSource, $twigAppend, $this->otherUrlTag);
+
+        $event->setSource($twigSource);
+
+        $parameters['pel_ProductMakers'] = $pel_ProductMakers;
+        $event->setParameters($parameters);
+        log_info('Event: product maker render success.');
+        log_info('Event: product maker hook into the product list end.');
+    }
 }

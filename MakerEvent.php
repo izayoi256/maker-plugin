@@ -76,6 +76,19 @@ class MakerEvent
     }
 
     /**
+     * New event function on version >= 3.0.9 (new hook point)
+     * Product list render (front).
+     *
+     * @param TemplateEvent $event
+     */
+    public function onRenderProductList(TemplateEvent $event)
+    {
+        /* @var Maker $makerEvent */
+        $makerEvent = $this->app['eccube.plugin.pel.event.maker'];
+        $makerEvent->onRenderProductList($event);
+    }
+
+    /**
      * Add product trigger.
      *
      * @param FilterResponseEvent $event
