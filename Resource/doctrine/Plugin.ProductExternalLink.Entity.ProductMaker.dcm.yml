@@ -1,7 +1,7 @@
-Plugin\Maker\Entity\ProductMaker:
+Plugin\ProductExternalLink\Entity\ProductMaker:
     type: entity
-    table: plg_product_maker
-    repositoryClass: Plugin\Maker\Repository\ProductMakerRepository
+    table: plg_pel_product_maker
+    repositoryClass: Plugin\ProductExternalLink\Repository\ProductMakerRepository
     id:
         id:
             type: integer
@@ -37,7 +37,7 @@ Plugin\Maker\Entity\ProductMaker:
                 default: '0'
     manyToOne:
         Maker:
-            targetEntity: Plugin\Maker\Entity\Maker
+            targetEntity: Plugin\ProductExternalLink\Entity\Maker
             joinColumn:
                 name: maker_id
                 referencedColumnName: maker_id

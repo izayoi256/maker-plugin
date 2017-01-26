@@ -1,8 +1,8 @@
 {#
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -76,7 +76,7 @@
                 });
 
                 $.ajax({
-                    url: '{{ url('admin_plugin_maker_move_rank') }}',
+                    url: '{{ url('admin_plugin_pel_maker_move_rank') }}',
                     type: 'POST',
                     data: newRanks
                 }).done(function(data) {
@@ -109,7 +109,7 @@
                 modal.find('button#add-button-submit').text(addButton);
                 modal.find('.attention').hide();
                 if (modalError) {
-                    window.location.href = "{{ url('admin_plugin_maker_index') }}";
+                    window.location.href = "{{ url('admin_plugin_pel_maker_index') }}";
                 }
             });
         });
@@ -126,7 +126,7 @@
             <div id="list_box__body" class="box">
                 <div class="box-header">
                     <div class="box-title box-title-maker">
-                        <a href="{{ url('admin_plugin_maker_index') }}">メーカー</a>
+                        <a href="{{ url('admin_plugin_pel_maker_index') }}">メーカー</a>
                     </div>
                 </div>
                 <div class="box-body">
@@ -144,18 +144,18 @@
                                         <svg class="cb cb-ellipsis-v"> <use xlink:href="#cb-ellipsis-v" /></svg>
                                     </div>
                                     <div class="item_pattern td">
-                                        <a class="edit" data-id="{{ Maker.id }}" data-name="{{ Maker.name }}" href="#" data-url="{{ url('admin_plugin_maker_index', {id: Maker.id}) }}">{{ Maker.name }}</a>
+                                        <a class="edit" data-id="{{ Maker.id }}" data-name="{{ Maker.name }}" href="#" data-url="{{ url('admin_plugin_pel_maker_index', {id: Maker.id}) }}">{{ Maker.name }}</a>
                                     </div>
                                     <div class="icon_edit td">
                                         <div class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown"><svg class="cb cb-ellipsis-h"> <use xlink:href="#cb-ellipsis-h" /></svg></a>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
-                                                    <a class="edit" data-id="{{ Maker.id }}" data-name="{{ Maker.name }}" href="#" data-url="{{ url('admin_plugin_maker_index', {id: Maker.id}) }}">編集</a>
+                                                    <a class="edit" data-id="{{ Maker.id }}" data-name="{{ Maker.name }}" href="#" data-url="{{ url('admin_plugin_pel_maker_index', {id: Maker.id}) }}">編集</a>
                                                 </li>
                                                 <li>
-                                                    {% set delete_action = url('admin_plugin_maker_delete', {id: Maker.id}) %}
-                                                    <a href="{{ delete_action }}" {{ csrf_token_for_anchor() }} data-method="delete" data-message="{{ 'admin.plugin.maker.delete.confirm'|trans }}">削除</a>
+                                                    {% set delete_action = url('admin_plugin_pel_maker_delete', {id: Maker.id}) %}
+                                                    <a href="{{ delete_action }}" {{ csrf_token_for_anchor() }} data-method="delete" data-message="{{ 'admin.plugin.pel.delete.confirm'|trans }}">削除</a>
                                                 </li>
                                             </ul>
                                         </div>

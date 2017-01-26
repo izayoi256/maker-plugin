@@ -1,19 +1,19 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\Controller;
+namespace Plugin\ProductExternalLink\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Eccube\Application;
 use Eccube\Controller\AbstractController;
-use Plugin\Maker\Entity\Maker;
+use Plugin\ProductExternalLink\Entity\Maker;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -34,7 +34,7 @@ class MakerController extends AbstractController
      */
     public function index(Application $app, Request $request, $id = null)
     {
-        $repos = $app['eccube.plugin.maker.repository.maker'];
+        $repos = $app['eccube.plugin.pel.repository.maker'];
 
         $TargetMaker = new Maker();
 
@@ -47,7 +47,7 @@ class MakerController extends AbstractController
         }
 
         $form = $app['form.factory']
-            ->createBuilder('admin_maker', $TargetMaker)
+            ->createBuilder('admin_pel_maker', $TargetMaker)
             ->getForm();
 
         $form->handleRequest($request);
@@ -58,21 +58,21 @@ class MakerController extends AbstractController
 
             if ($status) {
                 log_info('Maker add/edit success', array('Maker id' => $TargetMaker->getId()));
-                $app->addSuccess('admin.plugin.maker.save.complete', 'admin');
+                $app->addSuccess('admin.plugin.pel.save.complete', 'admin');
 
-                return $app->redirect($app->url('admin_plugin_maker_index'));
+                return $app->redirect($app->url('admin_plugin_pel_maker_index'));
             } else {
                 log_info('Maker add/edit fail!', array('Maker id' => $TargetMaker->getId()));
-                $app->addError('admin.plugin.maker.save.error', 'admin');
+                $app->addError('admin.plugin.pel.save.error', 'admin');
             }
         }
 
         /**
          * @var ArrayCollection $arrMaker
          */
-        $arrMaker = $app['eccube.plugin.maker.repository.maker']->findBy(array(), array('rank' => 'DESC'));
+        $arrMaker = $app['eccube.plugin.pel.repository.maker']->findBy(array(), array('rank' => 'DESC'));
 
-        return $app->render('Maker/Resource/template/admin/maker.twig', array(
+        return $app->render('ProductExternalLink/Resource/template/admin/maker.twig', array(
             'form' => $form->createView(),
             'arrMaker' => $arrMaker,
             'TargetMaker' => $TargetMaker,
@@ -102,12 +102,12 @@ class MakerController extends AbstractController
         // Id valid
         if (!$id) {
             log_info('The maker not found!', array('Maker id' => $id));
-            $app->addError('admin.plugin.maker.not_found', 'admin');
+            $app->addError('admin.plugin.pel.not_found', 'admin');
 
-            return $app->redirect($app->url('admin_plugin_maker_index'));
+            return $app->redirect($app->url('admin_plugin_pel_maker_index'));
         }
 
-        $repos = $app['eccube.plugin.maker.repository.maker'];
+        $repos = $app['eccube.plugin.pel.repository.maker'];
 
         $TargetMaker = $repos->find($id);
 
@@ -120,13 +120,13 @@ class MakerController extends AbstractController
 
         if ($status === true) {
             log_info('The maker delete success!', array('Maker id' => $id));
-            $app->addSuccess('admin.plugin.maker.delete.complete', 'admin');
+            $app->addSuccess('admin.plugin.pel.delete.complete', 'admin');
         } else {
             log_info('The maker delete fail!', array('Maker id' => $id));
-            $app->addError('admin.plugin.maker.delete.error', 'admin');
+            $app->addError('admin.plugin.pel.delete.error', 'admin');
         }
 
-        return $app->redirect($app->url('admin_plugin_maker_index'));
+        return $app->redirect($app->url('admin_plugin_pel_maker_index'));
     }
 
     /**
@@ -141,7 +141,7 @@ class MakerController extends AbstractController
     {
         if ($request->isXmlHttpRequest()) {
             $arrRank = $request->request->all();
-            $arrMoved = $app['eccube.plugin.maker.repository.maker']->moveMakerRank($arrRank);
+            $arrMoved = $app['eccube.plugin.pel.repository.maker']->moveMakerRank($arrRank);
             log_info('Maker move rank', $arrMoved);
         }
 

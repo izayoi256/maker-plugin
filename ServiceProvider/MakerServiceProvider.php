@@ -1,19 +1,19 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\ServiceProvider;
+namespace Plugin\ProductExternalLink\ServiceProvider;
 
-use Plugin\Maker\Event\Maker;
-use Plugin\Maker\Event\MakerLegacy;
-use Plugin\Maker\Form\Extension\Admin\ProductMakerTypeExtension;
-use Plugin\Maker\Form\Type\MakerType;
+use Plugin\ProductExternalLink\Event\Maker;
+use Plugin\ProductExternalLink\Event\MakerLegacy;
+use Plugin\ProductExternalLink\Form\Extension\Admin\ProductMakerTypeExtension;
+use Plugin\ProductExternalLink\Form\Type\MakerType;
 use Silex\Application as BaseApplication;
 use Silex\ServiceProviderInterface;
 use Eccube\Common\Constant;
@@ -39,36 +39,36 @@ class MakerServiceProvider implements ServiceProviderInterface
         }
 
         // メーカーテーブル用リポジトリ
-        $app['eccube.plugin.maker.repository.maker'] = $app->share(function () use ($app) {
-            return $app['orm.em']->getRepository('Plugin\Maker\Entity\Maker');
+        $app['eccube.plugin.pel.repository.maker'] = $app->share(function () use ($app) {
+            return $app['orm.em']->getRepository('Plugin\ProductExternalLink\Entity\Maker');
         });
 
-        $app['eccube.plugin.maker.repository.product_maker'] = $app->share(function () use ($app) {
-            return $app['orm.em']->getRepository('Plugin\Maker\Entity\ProductMaker');
+        $app['eccube.plugin.pel.repository.product_maker'] = $app->share(function () use ($app) {
+            return $app['orm.em']->getRepository('Plugin\ProductExternalLink\Entity\ProductMaker');
         });
 
         // Maker event
-        $app['eccube.plugin.maker.event.maker'] = $app->share(function () use ($app) {
+        $app['eccube.plugin.pel.event.maker'] = $app->share(function () use ($app) {
             return new Maker($app);
         });
 
         // Maker legacy event
-        $app['eccube.plugin.maker.event.maker_legacy'] = $app->share(function () use ($app) {
+        $app['eccube.plugin.pel.event.maker_legacy'] = $app->share(function () use ($app) {
             return new MakerLegacy($app);
         });
 
         // 一覧・登録・修正
-        $admin->match('/plugin/maker/{id}', '\\Plugin\\Maker\\Controller\\MakerController::index')
+        $admin->match('/plugin/pel/{id}', '\\Plugin\\ProductExternalLink\\Controller\\MakerController::index')
             ->value('id', null)->assert('id', '\d+|')
-            ->bind('admin_plugin_maker_index');
+            ->bind('admin_plugin_pel_maker_index');
 
         // 削除
-        $admin->delete('/plugin/maker/{id}/delete', '\\Plugin\\Maker\\Controller\\MakerController::delete')
+        $admin->delete('/plugin/pel/{id}/delete', '\\Plugin\\ProductExternalLink\\Controller\\MakerController::delete')
             ->value('id', null)->assert('id', '\d+|')
-            ->bind('admin_plugin_maker_delete');
+            ->bind('admin_plugin_pel_maker_delete');
 
-        $admin->post('/plugin/maker/rank/move', '\\Plugin\\Maker\\Controller\\MakerController::moveRank')
-            ->bind('admin_plugin_maker_move_rank');
+        $admin->post('/plugin/pel/rank/move', '\\Plugin\\ProductExternalLink\\Controller\\MakerController::moveRank')
+            ->bind('admin_plugin_pel_maker_move_rank');
 
         $app->mount('/'.trim($app['config']['admin_route'], '/').'/', $admin);
 
@@ -92,9 +92,9 @@ class MakerServiceProvider implements ServiceProviderInterface
 
         // メニュー登録
         $app['config'] = $app->share($app->extend('config', function ($config) {
-            $addNavi['id'] = 'maker';
+            $addNavi['id'] = 'pel';
             $addNavi['name'] = 'メーカー管理';
-            $addNavi['url'] = 'admin_plugin_maker_index';
+            $addNavi['url'] = 'admin_plugin_pel_maker_index';
 
             $nav = $config['nav'];
             foreach ($nav as $key => $val) {

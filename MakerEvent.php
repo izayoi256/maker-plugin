@@ -1,21 +1,21 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker;
+namespace Plugin\ProductExternalLink;
 
 use Eccube\Application;
 use Eccube\Event\EventArgs;
 use Eccube\Event\TemplateEvent;
-use Plugin\Maker\Event\Maker;
-use Plugin\Maker\Event\MakerLegacy;
-use Plugin\Maker\Util\Version;
+use Plugin\ProductExternalLink\Event\Maker;
+use Plugin\ProductExternalLink\Event\MakerLegacy;
+use Plugin\ProductExternalLink\Util\Version;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 /**
@@ -45,7 +45,7 @@ class MakerEvent
     public function onAdminProductEditInitialize(EventArgs $event)
     {
         /* @var Maker $makerEvent */
-        $makerEvent = $this->app['eccube.plugin.maker.event.maker'];
+        $makerEvent = $this->app['eccube.plugin.pel.event.maker'];
         $makerEvent->onAdminProductEditInitialize($event);
     }
 
@@ -58,7 +58,7 @@ class MakerEvent
     public function onAdminProductEditComplete(EventArgs $event)
     {
         /* @var Maker $makerEvent */
-        $makerEvent = $this->app['eccube.plugin.maker.event.maker'];
+        $makerEvent = $this->app['eccube.plugin.pel.event.maker'];
         $makerEvent->onAdminProductEditComplete($event);
     }
 
@@ -71,7 +71,7 @@ class MakerEvent
     public function onRenderProductDetail(TemplateEvent $event)
     {
         /* @var Maker $makerEvent */
-        $makerEvent = $this->app['eccube.plugin.maker.event.maker'];
+        $makerEvent = $this->app['eccube.plugin.pel.event.maker'];
         $makerEvent->onRenderProductDetail($event);
     }
 
@@ -88,7 +88,7 @@ class MakerEvent
             return;
         }
         /* @var MakerLegacy $makerEvent */
-        $makerEvent = $this->app['eccube.plugin.maker.event.maker_legacy'];
+        $makerEvent = $this->app['eccube.plugin.pel.event.maker_legacy'];
         $makerEvent->onRenderAdminProduct($event);
     }
 
@@ -105,7 +105,7 @@ class MakerEvent
             return;
         }
         /* @var MakerLegacy $makerEvent */
-        $makerEvent = $this->app['eccube.plugin.maker.event.maker_legacy'];
+        $makerEvent = $this->app['eccube.plugin.pel.event.maker_legacy'];
         $makerEvent->onRenderProductDetailBefore($event);
     }
 

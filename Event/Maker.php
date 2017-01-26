@@ -1,22 +1,22 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\Event;
+namespace Plugin\ProductExternalLink\Event;
 
 use Doctrine\ORM\EntityRepository;
 use Eccube\Entity\Product;
 use Eccube\Event\EventArgs;
 use Eccube\Common\Constant;
 use Eccube\Event\TemplateEvent;
-use Plugin\Maker\Entity\ProductMaker;
-use Plugin\Maker\Repository\ProductMakerRepository;
+use Plugin\ProductExternalLink\Entity\ProductMaker;
+use Plugin\ProductExternalLink\Repository\ProductMakerRepository;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
@@ -43,16 +43,16 @@ class Maker extends CommonEvent
         $builder = $event->getArgument('builder');
 
         // Remove old extension
-        $builder->remove('maker')
-            ->remove('maker_url');
+        $builder->remove('pel_maker')
+            ->remove('pel_maker_url');
 
         $target = '_blank';
 
         // Add new extension
         $builder
-            ->add('plg_maker', 'entity', array(
+            ->add('plg_pel_maker', 'entity', array(
                 'label' => 'メーカー',
-                'class' => 'Plugin\Maker\Entity\Maker',
+                'class' => 'Plugin\ProductExternalLink\Entity\Maker',
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('m')->orderBy('m.rank', 'DESC');
                 },
@@ -61,7 +61,7 @@ class Maker extends CommonEvent
                 'empty_value' => '',
                 'mapped' => false,
             ))
-            ->add('plg_maker_url', 'text', array(
+            ->add('plg_pel_maker_url', 'text', array(
                 'label' => 'URL',
                 'required' => false,
                 'constraints' => array(
@@ -69,7 +69,7 @@ class Maker extends CommonEvent
                 ),
                 'mapped' => false,
                 'attr' => array(
-                    'placeholder' => $this->app->trans('admin.plugin.maker.placeholder.url'),
+                    'placeholder' => $this->app->trans('admin.plugin.pel.placeholder.url'),
                 ),
             ))
             ->add('plg_other_url', 'text', array(
@@ -120,7 +120,7 @@ class Maker extends CommonEvent
             /**
              * @var ProductMakerRepository $repository
              */
-            $repository = $this->app['eccube.plugin.maker.repository.product_maker'];
+            $repository = $this->app['eccube.plugin.pel.repository.product_maker'];
             $ProductMaker = $repository->find($id);
         }
 
@@ -130,8 +130,8 @@ class Maker extends CommonEvent
             return;
         }
 
-        $builder->get('plg_maker')->setData($ProductMaker->getMaker());
-        $builder->get('plg_maker_url')->setData($ProductMaker->getMakerUrl());
+        $builder->get('plg_pel_maker')->setData($ProductMaker->getMaker());
+        $builder->get('plg_pel_maker_url')->setData($ProductMaker->getMakerUrl());
         $builder->get('plg_other_url')->setData($ProductMaker->getOtherUrl());
         $builder->get('plg_other_url_target')->setData($ProductMaker->getOtherUrlTarget());
         $builder->get('plg_disabled')->setData($ProductMaker->isDisabled());
@@ -160,7 +160,7 @@ class Maker extends CommonEvent
         /**
          * @var ProductMakerRepository $repository
          */
-        $repository = $this->app['eccube.plugin.maker.repository.product_maker'];
+        $repository = $this->app['eccube.plugin.pel.repository.product_maker'];
         /**
          * @var ProductMaker $ProductMaker
          */
@@ -169,8 +169,8 @@ class Maker extends CommonEvent
             $ProductMaker = new ProductMaker();
         }
 
-        $maker = $form->get('plg_maker')->getData();
-        $makerUrl = $form->get('plg_maker_url')->getData();
+        $maker = $form->get('plg_pel_maker')->getData();
+        $makerUrl = $form->get('plg_pel_maker_url')->getData();
 
         $ProductMaker
             ->setId($Product->getId())
@@ -214,7 +214,7 @@ class Maker extends CommonEvent
         /**
          * @var ProductMakerRepository $repository
          */
-        $repository = $this->app['eccube.plugin.maker.repository.product_maker'];
+        $repository = $this->app['eccube.plugin.pel.repository.product_maker'];
         /**
          * @var ProductMaker $ProductMaker
          */
@@ -237,7 +237,7 @@ class Maker extends CommonEvent
          */
         $twig = $this->app['twig'];
 
-        $twigAppend = $twig->getLoader()->getSource('Maker/Resource/template/default/maker.twig');
+        $twigAppend = $twig->getLoader()->getSource('ProductExternalLink/Resource/template/default/maker.twig');
 
         /**
          * @var string $twigSource twig template.
@@ -246,14 +246,14 @@ class Maker extends CommonEvent
 
         $twigSource = $this->renderPosition($twigSource, $twigAppend, $this->makerTag);
 
-        $twigAppend = $twig->getLoader()->getSource('Maker/Resource/template/default/detail_other_url.twig');
+        $twigAppend = $twig->getLoader()->getSource('ProductExternalLink/Resource/template/default/detail_other_url.twig');
         $twigSource = $this->renderPosition($twigSource, $twigAppend, $this->otherUrlTag);
 
         $event->setSource($twigSource);
 
-        $parameters['maker_name'] = $Maker ? $Maker->getName() : '';
-        $parameters['maker_url'] = $ProductMaker->getMakerUrl();
-        $parameters['ProductMaker'] = $ProductMaker;
+        $parameters['pel_maker_name'] = $Maker ? $Maker->getName() : '';
+        $parameters['pel_maker_url'] = $ProductMaker->getMakerUrl();
+        $parameters['pel_ProductMaker'] = $ProductMaker;
         $event->setParameters($parameters);
         log_info('Event: product maker render success.', array('Product id' => $ProductMaker->getId()));
         log_info('Event: product maker hook into the product detail end.');

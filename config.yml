@@ -1,6 +1,6 @@
-name: Maker
+name: ProductExternalLink
 event: MakerEvent
-code: Maker
+code: ProductExternalLink
 version: 1.0.0
 service: 
     - MakerServiceProvider

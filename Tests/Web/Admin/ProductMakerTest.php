@@ -1,18 +1,18 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\Tests\Web\Admin;
+namespace Plugin\ProductExternalLink\Tests\Web\Admin;
 
 use Faker\Generator;
-use Plugin\Maker\Entity\ProductMaker;
-use Plugin\Maker\Tests\Web\MakerWebCommon;
+use Plugin\ProductExternalLink\Entity\ProductMaker;
+use Plugin\ProductExternalLink\Tests\Web\MakerWebCommon;
 use Symfony\Component\HttpKernel\Client;
 
 /**
@@ -20,8 +20,8 @@ use Symfony\Component\HttpKernel\Client;
  */
 class ProductMakerTest extends MakerWebCommon
 {
-    const MAKER = 'plg_maker';
-    const MAKER_URL = 'plg_maker_url';
+    const MAKER = 'plg_pel_maker';
+    const MAKER_URL = 'plg_pel_maker_url';
 
     /**
      * @var int
@@ -34,7 +34,7 @@ class ProductMakerTest extends MakerWebCommon
     public function setUp()
     {
         parent::setUp();
-        $this->deleteAllRows(array('plg_product_maker', 'plg_maker'));
+        $this->deleteAllRows(array('plg_pel_product_maker', 'plg_pel_maker'));
     }
 
     /**
@@ -100,7 +100,7 @@ class ProductMakerTest extends MakerWebCommon
         $this->assertNotContains($formData[self::MAKER_URL], $crawler->filter('body .container-fluid')->html());
 
         // Check database
-        $arrProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->findAll();
+        $arrProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->findAll();
 
         $this->actual = count($arrProductMaker);
         $this->expected = 0;
@@ -136,7 +136,7 @@ class ProductMakerTest extends MakerWebCommon
         $this->assertContains('有効な値ではありません。', $crawler->filter('.errormsg')->html());
 
         // Check database
-        $arrProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->findAll();
+        $arrProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->findAll();
 
         $this->actual = count($arrProductMaker);
         $this->expected = 0;
@@ -182,7 +182,7 @@ class ProductMakerTest extends MakerWebCommon
         /**
          * @var ProductMaker $ProductMaker
          */
-        $ProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->find($productId);
+        $ProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->find($productId);
 
         $this->actual = $ProductMaker->getMaker()->getId();
         $this->expected = $formData[self::MAKER];
@@ -219,7 +219,7 @@ class ProductMakerTest extends MakerWebCommon
         $this->assertContains('有効なURLではありません。', $crawler->filter('.errormsg')->html());
 
         // Check database
-        $arrProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->findAll();
+        $arrProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->findAll();
 
         $this->actual = count($arrProductMaker);
         $this->expected = 0;
@@ -265,7 +265,7 @@ class ProductMakerTest extends MakerWebCommon
         /**
          * @var ProductMaker $ProductMaker
          */
-        $ProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->find($productId);
+        $ProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->find($productId);
 
         $this->actual = array($ProductMaker->getMaker()->getId(), $ProductMaker->getMakerUrl());
         $this->expected = array($formData[self::MAKER], $formData[self::MAKER_URL]);
@@ -350,7 +350,7 @@ class ProductMakerTest extends MakerWebCommon
         $this->assertContains('登録が完了しました。', $crawler->filter('.alert')->html());
 
         // Check database
-        $arrProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->findAll();
+        $arrProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->findAll();
 
         $this->actual = count($arrProductMaker);
         $this->expected = 0;
@@ -410,7 +410,7 @@ class ProductMakerTest extends MakerWebCommon
         $this->assertContains('有効な値ではありません。', $crawler->filter('.errormsg')->html());
 
         // Check database
-        $arrProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->findAll();
+        $arrProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->findAll();
 
         $this->actual = count($arrProductMaker);
         $this->expected = 0;
@@ -468,7 +468,7 @@ class ProductMakerTest extends MakerWebCommon
         $this->assertContains('登録が完了しました。', $crawler->filter('.alert')->html());
 
         // Check database
-        $ProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->find($productId);
+        $ProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->find($productId);
 
         $this->actual = array($ProductMaker->getMaker()->getId(), $ProductMaker->getMakerUrl());
         $this->expected = array($Maker->getId(), $formData[self::MAKER_URL]);
@@ -524,7 +524,7 @@ class ProductMakerTest extends MakerWebCommon
         $this->assertContains('有効なURLではありません。', $crawler->filter('.errormsg')->html());
 
         // Check database
-        $arrProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->findAll();
+        $arrProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->findAll();
 
         $this->actual = count($arrProductMaker);
         $this->expected = 0;
@@ -585,7 +585,7 @@ class ProductMakerTest extends MakerWebCommon
         $this->assertContains('登録が完了しました。', $crawler->filter('.alert')->html());
 
         // Check database
-        $ProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->find($productId);
+        $ProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->find($productId);
 
         $this->actual = array($ProductMaker->getMaker()->getId(), $ProductMaker->getMakerUrl());
         $this->expected = array($Maker->getId(), $formData[self::MAKER_URL]);

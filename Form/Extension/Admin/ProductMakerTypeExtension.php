@@ -1,14 +1,14 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\Form\Extension\Admin;
+namespace Plugin\ProductExternalLink\Form\Extension\Admin;
 
 use Doctrine\ORM\EntityRepository;
 use Eccube\Application;
@@ -40,9 +40,9 @@ class ProductMakerTypeExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('maker', 'entity', array(
+            ->add('pel_maker', 'entity', array(
                 'label' => 'メーカー',
-                'class' => 'Plugin\Maker\Entity\Maker',
+                'class' => 'Plugin\ProductExternalLink\Entity\Maker',
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('m')->orderBy('m.rank', 'DESC');
                 },
@@ -51,7 +51,7 @@ class ProductMakerTypeExtension extends AbstractTypeExtension
                 'empty_value' => '',
                 'mapped' => false,
             ))
-            ->add('maker_url', 'text', array(
+            ->add('pel_maker_url', 'text', array(
                 'label' => 'URL',
                 'required' => false,
                 'constraints' => array(
@@ -59,7 +59,7 @@ class ProductMakerTypeExtension extends AbstractTypeExtension
                 ),
                 'mapped' => false,
                 'attr' => array(
-                    'placeholder' => $this->app->trans('admin.plugin.maker.placeholder.url'),
+                    'placeholder' => $this->app->trans('admin.plugin.pel.placeholder.url'),
                 ),
             ));
     }

@@ -18,9 +18,9 @@ environment:
     DBPASS: "Password12!"
     DBUSER: "root"
     BASE_DIR: "C:/projects/ec-cube"
-    PLUGIN_BASE_DIR: "C:/projects/maker-plugin"
+    PLUGIN_BASE_DIR: "C:/projects/ProductExternalLink"
     ECCUBE_VERSION: "master"
-    PLUGIN_CODE: "Maker"
+    PLUGIN_CODE: "ProductExternalLink"
   matrix:
   - db: mysql
     provider: mysql

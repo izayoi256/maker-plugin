@@ -1,17 +1,17 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\Event;
+namespace Plugin\ProductExternalLink\Event;
 
 use Eccube\Common\Constant;
-use Plugin\Maker\Entity\ProductMaker;
+use Plugin\ProductExternalLink\Entity\ProductMaker;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,14 +59,14 @@ class MakerLegacy extends CommonEvent
                 /*
                  * @var ArrayCollection
                  */
-                $arrMaker = $this->app['eccube.plugin.maker.repository.maker']->findBy(array(), array('rank' => 'DESC'));
+                $arrMaker = $this->app['eccube.plugin.pel.repository.maker']->findBy(array(), array('rank' => 'DESC'));
 
-                $Maker = $form->get('maker')->getData();
-                $makerUrl = $form->get('maker_url')->getData();
+                $Maker = $form->get('pel_maker')->getData();
+                $makerUrl = $form->get('pel_maker_url')->getData();
 
                 $ProductMaker = null;
                 if ($id) {
-                    $ProductMaker = $app['eccube.plugin.maker.repository.product_maker']->find($id);
+                    $ProductMaker = $app['eccube.plugin.pel.repository.product_maker']->find($id);
                 }
 
                 if (!$ProductMaker) {
@@ -123,7 +123,7 @@ class MakerLegacy extends CommonEvent
         $ProductMaker = null;
         if ($id) {
             // 商品メーカーマスタから設定されているなメーカー情報を取得
-            $ProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->find($id);
+            $ProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->find($id);
         }
 
         if (!$ProductMaker) {
@@ -159,7 +159,7 @@ class MakerLegacy extends CommonEvent
     private function renderProductDetail(Response $response, ProductMaker $ProductMaker)
     {
         $parts = $this->app->renderView(
-            'Maker/Resource/template/default/maker.twig',
+            'ProductExternalLink/Resource/template/default/maker.twig',
             array(
                 'maker_name' => $ProductMaker->getMaker()->getName(),
                 'maker_url' => $ProductMaker->getMakerUrl(),
@@ -190,7 +190,7 @@ class MakerLegacy extends CommonEvent
         if ($id) {
             $Product = $this->app['eccube.repository.product']->find($id);
             // 商品メーカーマスタから設定されているなメーカー情報を取得
-            $ProductMaker = $this->app['eccube.plugin.maker.repository.product_maker']->find($id);
+            $ProductMaker = $this->app['eccube.plugin.pel.repository.product_maker']->find($id);
         }
 
         $builder = $this->app['form.factory']
@@ -206,14 +206,14 @@ class MakerLegacy extends CommonEvent
 
         if ($ProductMaker) {
             // 既に登録されている商品メーカー情報が設定されている場合、初期選択
-            $form->get('maker')->setData($ProductMaker->getMaker());
-            $form->get('maker_url')->setData($ProductMaker->getMakerUrl());
+            $form->get('pel_maker')->setData($ProductMaker->getMaker());
+            $form->get('pel_maker_url')->setData($ProductMaker->getMakerUrl());
         }
 
         $form->handleRequest($request);
 
         $parts = $this->app->renderView(
-            'Maker/Resource/template/admin/product_maker.twig',
+            'ProductExternalLink/Resource/template/admin/product_maker.twig',
             array('form' => $form->createView())
         );
 

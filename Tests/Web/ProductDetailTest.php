@@ -1,19 +1,20 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Plugin\Maker\Tests\Web;
+
+namespace Plugin\ProductExternalLink\Tests\Web;
 
 use Eccube\Common\Constant;
 use Eccube\Entity\Product;
 use Faker\Generator;
-use Plugin\Maker\Entity\Maker;
-use Plugin\Maker\Entity\ProductMaker;
+use Plugin\ProductExternalLink\Entity\Maker;
+use Plugin\ProductExternalLink\Entity\ProductMaker;
 use Symfony\Component\HttpKernel\Client;
 
 /**
@@ -38,7 +39,7 @@ class ProductDetailTest extends MakerWebCommon
     public function setUp()
     {
         parent::setUp();
-        $this->deleteAllRows(array('plg_product_maker', 'plg_maker'));
+        $this->deleteAllRows(array('plg_pel_product_maker', 'plg_pel_maker'));
         $this->Maker = $this->createMaker();
 
         $this->ProductMaker = $this->createProductMaker($this->Maker);
@@ -140,8 +141,8 @@ class ProductDetailTest extends MakerWebCommon
              */
             $faker = $this->getFaker();
             $formData = $this->createFormData();
-            $formData['plg_maker'] = '';
-            $formData['plg_maker_url'] = '';
+            $formData['plg_pel_maker'] = '';
+            $formData['plg_pel_maker_url'] = '';
 
             /**
              * @var Client $client

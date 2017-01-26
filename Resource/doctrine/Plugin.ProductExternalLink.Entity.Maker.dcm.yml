@@ -1,7 +1,7 @@
-Plugin\Maker\Entity\Maker:
+Plugin\ProductExternalLink\Entity\Maker:
     type: entity
-    table: plg_maker
-    repositoryClass: Plugin\Maker\Repository\MakerRepository
+    table: plg_pel_maker
+    repositoryClass: Plugin\ProductExternalLink\Repository\MakerRepository
     id:
         id:
             type: integer

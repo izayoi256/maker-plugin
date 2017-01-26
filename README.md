@@ -1,9 +1,4 @@
-# メーカー管理プラグイン
-
-[![Build Status](https://travis-ci.org/EC-CUBE/maker-plugin.svg?branch=master)](https://travis-ci.org/EC-CUBE/maker-plugin)
-[![Build status](https://ci.appveyor.com/api/projects/status/1b1670q628q3h2vo?svg=true)](https://ci.appveyor.com/project/ECCUBE/maker-plugin)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/36f4dd74-3e50-48a2-8b47-de7ec9762333/mini.png)](https://insight.sensiolabs.com/projects/36f4dd74-3e50-48a2-8b47-de7ec9762333)
-[![Coverage Status](https://coveralls.io/repos/github/EC-CUBE/maker-plugin/badge.svg?branch=master)](https://coveralls.io/github/EC-CUBE/maker-plugin?branch=master)
+# ProductExternalLink
 
 ## 概要
 商品詳細ページに、メーカー情報を表示できるようになるプラグイン。
@@ -24,4 +19,5 @@
 
 ## オプション
 ### メーカー情報の表示位置を変更することができる。
-- 商品詳細ページのtwigファイルに`<!--# maker-plugin-tag #-->`と入力すると、その位置に表示を行う。
+- 商品詳細ページのtwigファイルに`<!--# pel-plugin-tag #-->`と入力すると、その位置に表示を行う。
+- 商品一覧ページ及び詳細ページのtwigファイルに`<!--# pel-plugin-other-url-tag #-->`と入力すると、その位置にボタンの表示を行う。

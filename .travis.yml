@@ -16,7 +16,7 @@ php:
 env:
   # plugin code
   global:
-    PLUGIN_CODE=Maker
+    PLUGIN_CODE=ProductExternalLink
   matrix:
     # ec-cube master
     - ECCUBE_VERSION=master DB=mysql USER=root DBNAME=myapp_test DBPASS=' ' DBUSER=root

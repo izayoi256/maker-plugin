@@ -1,8 +1,8 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\ORM\Tools\SchemaTool;
 use Eccube\Application;
 use Doctrine\ORM\EntityManager;
-use Plugin\Maker\Util\Version;
+use Plugin\ProductExternalLink\Util\Version;
 
 /**
  * Class Version201507231300.
@@ -25,23 +25,23 @@ class Version201507231300 extends AbstractMigration
     /**
      * @var string table name
      */
-    const MAKER = 'plg_maker';
+    const MAKER = 'plg_pel_maker';
 
     /**
      * @var string product maker table
      */
-    const PRODUCTMAKER = 'plg_product_maker';
+    const PRODUCTMAKER = 'plg_pel_product_maker';
 
     /**
      * @var array plugin entity
      */
     protected $entities = array(
-        'Plugin\Maker\Entity\Maker',
-        'Plugin\Maker\Entity\ProductMaker',
+        'Plugin\ProductExternalLink\Entity\Maker',
+        'Plugin\ProductExternalLink\Entity\ProductMaker',
     );
 
     protected $sequence = array(
-        'plg_maker_maker_id_seq',
+        'plg_pel_maker_maker_id_seq',
     );
 
     /**
@@ -118,7 +118,7 @@ class Version201507231300 extends AbstractMigration
         $app = Application::getInstance();
         $em = $app['orm.em'];
         $classes = array(
-            $em->getClassMetadata('Plugin\Maker\Entity\Maker'),
+            $em->getClassMetadata('Plugin\ProductExternalLink\Entity\Maker'),
         );
         $tool = new SchemaTool($em);
         $tool->createSchema($classes);
@@ -142,7 +142,7 @@ class Version201507231300 extends AbstractMigration
         $app = Application::getInstance();
         $em = $app['orm.em'];
         $classes = array(
-            $em->getClassMetadata('Plugin\Maker\Entity\ProductMaker'),
+            $em->getClassMetadata('Plugin\ProductExternalLink\Entity\ProductMaker'),
         );
         $tool = new SchemaTool($em);
         $tool->createSchema($classes);

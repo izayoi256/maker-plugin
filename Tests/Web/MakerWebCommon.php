@@ -1,24 +1,24 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\Tests\Web;
+namespace Plugin\ProductExternalLink\Tests\Web;
 
 use Eccube\Common\Constant;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Faker\Generator;
-use Plugin\Maker\Entity\Maker;
-use Plugin\Maker\Util\Version;
+use Plugin\ProductExternalLink\Entity\Maker;
+use Plugin\ProductExternalLink\Util\Version;
 
 /**
  * Class MakerWebTestCase
- * @package Plugin\Maker\Tests\Web
+ * @package Plugin\ProductExternalLink\Tests\Web
  */
 class MakerWebCommon extends AbstractAdminWebTestCase
 {

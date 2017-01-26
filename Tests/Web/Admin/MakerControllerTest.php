@@ -1,18 +1,18 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\Tests\Web\Admin;
+namespace Plugin\ProductExternalLink\Tests\Web\Admin;
 
 use Eccube\Common\Constant;
 use Faker\Generator;
-use Plugin\Maker\Tests\Web\MakerWebCommon;
+use Plugin\ProductExternalLink\Tests\Web\MakerWebCommon;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -26,7 +26,7 @@ class MakerControllerTest extends MakerWebCommon
     public function setUp()
     {
         parent::setUp();
-        $this->deleteAllRows(array('plg_product_maker', 'plg_maker'));
+        $this->deleteAllRows(array('plg_pel_product_maker', 'plg_pel_maker'));
     }
 
     /**
@@ -34,7 +34,7 @@ class MakerControllerTest extends MakerWebCommon
      */
     public function testMakerRender()
     {
-        $crawler = $this->client->request('GET', $this->app->url('admin_plugin_maker_index'));
+        $crawler = $this->client->request('GET', $this->app->url('admin_plugin_pel_maker_index'));
         $this->assertContains('データはありません', $crawler->filter('.box')->html());
     }
 
@@ -48,7 +48,7 @@ class MakerControllerTest extends MakerWebCommon
             $this->createMaker($i);
         }
 
-        $crawler = $this->client->request('GET', $this->app->url('admin_plugin_maker_index'));
+        $crawler = $this->client->request('GET', $this->app->url('admin_plugin_pel_maker_index'));
         $number = count($crawler->filter('.tableish .item_box'));
 
         $this->actual = $number;
@@ -65,8 +65,8 @@ class MakerControllerTest extends MakerWebCommon
         $formData['name'] = '';
         $crawler = $this->client->request(
             'POST',
-            $this->app->url('admin_plugin_maker_index'),
-            array('admin_maker' => $formData)
+            $this->app->url('admin_plugin_pel_maker_index'),
+            array('admin_pel_maker' => $formData)
         );
 
         // Check message
@@ -84,8 +84,8 @@ class MakerControllerTest extends MakerWebCommon
         $formData['name'] = $Maker->getName();
         $crawler = $this->client->request(
             'POST',
-            $this->app->url('admin_plugin_maker_index'),
-            array('admin_maker' => $formData)
+            $this->app->url('admin_plugin_pel_maker_index'),
+            array('admin_pel_maker' => $formData)
         );
 
         // Check message
@@ -100,12 +100,12 @@ class MakerControllerTest extends MakerWebCommon
         $formData = $this->createMakerFormData();
         $this->client->request(
             'POST',
-            $this->app->url('admin_plugin_maker_index'),
-            array('admin_maker' => $formData)
+            $this->app->url('admin_plugin_pel_maker_index'),
+            array('admin_pel_maker' => $formData)
         );
 
         // Check redirect
-        $this->assertTrue($this->client->getResponse()->isRedirect($this->app->url('admin_plugin_maker_index')));
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->app->url('admin_plugin_pel_maker_index')));
 
         /**
          * @var Crawler $crawler
@@ -133,8 +133,8 @@ class MakerControllerTest extends MakerWebCommon
          */
         $crawler = $this->client->request(
             'POST',
-            $this->app->url('admin_plugin_maker_index', array('id' => $Maker->getId())),
-            array('admin_maker' => $formData)
+            $this->app->url('admin_plugin_pel_maker_index', array('id' => $Maker->getId())),
+            array('admin_pel_maker' => $formData)
         );
 
         // Check message
@@ -157,8 +157,8 @@ class MakerControllerTest extends MakerWebCommon
          */
         $crawler = $this->client->request(
             'POST',
-            $this->app->url('admin_plugin_maker_index', array('id' => $Maker->getId())),
-            array('admin_maker' => $formData)
+            $this->app->url('admin_plugin_pel_maker_index', array('id' => $Maker->getId())),
+            array('admin_pel_maker' => $formData)
         );
 
         // Check message
@@ -177,8 +177,8 @@ class MakerControllerTest extends MakerWebCommon
 
         $this->client->request(
             'POST',
-            $this->app->url('admin_plugin_maker_index', array('id' => $editId)),
-            array('admin_maker' => $formData)
+            $this->app->url('admin_plugin_pel_maker_index', array('id' => $editId)),
+            array('admin_pel_maker' => $formData)
         );
     }
 
@@ -192,12 +192,12 @@ class MakerControllerTest extends MakerWebCommon
 
         $this->client->request(
             'POST',
-            $this->app->url('admin_plugin_maker_index', array('id' => $Maker->getId())),
-            array('admin_maker' => $formData)
+            $this->app->url('admin_plugin_pel_maker_index', array('id' => $Maker->getId())),
+            array('admin_pel_maker' => $formData)
         );
 
         // Check redirect
-        $this->assertTrue($this->client->getResponse()->isRedirect($this->app->url('admin_plugin_maker_index')));
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->app->url('admin_plugin_pel_maker_index')));
 
         $crawler = $this->client->followRedirect();
         // Check message
@@ -218,7 +218,7 @@ class MakerControllerTest extends MakerWebCommon
 
         $this->client->request(
             'GET',
-            $this->app->url('admin_plugin_maker_delete', array('id' => $Maker->getId()))
+            $this->app->url('admin_plugin_pel_maker_delete', array('id' => $Maker->getId()))
         );
         $this->fail('No route found for "GET /admin/product/maker/{id}/delete": Method Not Allowed (Allow: DELETE)');
     }
@@ -230,11 +230,11 @@ class MakerControllerTest extends MakerWebCommon
     {
         $this->client->request(
             'DELETE',
-            $this->app->url('admin_plugin_maker_delete', array('id' => null))
+            $this->app->url('admin_plugin_pel_maker_delete', array('id' => null))
         );
 
         // Check redirect
-        $this->assertTrue($this->client->getResponse()->isRedirect($this->app->url('admin_plugin_maker_index')));
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->app->url('admin_plugin_pel_maker_index')));
 
         $crawler = $this->client->followRedirect();
         // Check message
@@ -255,7 +255,7 @@ class MakerControllerTest extends MakerWebCommon
 
         $this->client->request(
             'DELETE',
-            $this->app->url('admin_plugin_maker_delete', array('id' => $id))
+            $this->app->url('admin_plugin_pel_maker_delete', array('id' => $id))
         );
 
         $this->fail('Maker not found!');
@@ -270,10 +270,10 @@ class MakerControllerTest extends MakerWebCommon
 
         $this->client->request(
             'DELETE',
-            $this->app->url('admin_plugin_maker_delete', array('id' => $Maker->getId()))
+            $this->app->url('admin_plugin_pel_maker_delete', array('id' => $Maker->getId()))
         );
         // Check redirect
-        $this->assertTrue($this->client->getResponse()->isRedirect($this->app->url('admin_plugin_maker_index')));
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->app->url('admin_plugin_pel_maker_index')));
 
         $crawler = $this->client->followRedirect();
 
@@ -307,7 +307,7 @@ class MakerControllerTest extends MakerWebCommon
 
         $this->client->request(
             'GET',
-            $this->app->url('admin_plugin_maker_move_rank'),
+            $this->app->url('admin_plugin_pel_maker_move_rank'),
             $request,
             array(),
             array(
@@ -339,7 +339,7 @@ class MakerControllerTest extends MakerWebCommon
 
         $this->client->request(
             'POST',
-            $this->app->url('admin_plugin_maker_move_rank'),
+            $this->app->url('admin_plugin_pel_maker_move_rank'),
             $request,
             array(),
             array(

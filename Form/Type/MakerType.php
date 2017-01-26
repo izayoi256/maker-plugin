@@ -1,14 +1,14 @@
 <?php
 /*
- * This file is part of the Maker plugin
+ * This file is part of the ProductExternalLink plugin
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright (C) 2017 Shotaro HAMA All Rights Reserved.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Maker\Form\Type;
+namespace Plugin\ProductExternalLink\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -44,7 +44,7 @@ class MakerType extends AbstractType
                 'label' => 'メーカー名',
                 'required' => true,
                 'constraints' => array(
-                    new Assert\NotBlank(array('message' => $this->app->trans('admin.plugin.maker.blank.error'))),
+                    new Assert\NotBlank(array('message' => $this->app->trans('admin.plugin.pel.blank.error'))),
                 ),
             ))
             ->add('id', 'hidden', array());
@@ -55,6 +55,6 @@ class MakerType extends AbstractType
      */
     public function getName()
     {
-        return 'admin_maker';
+        return 'admin_pel_maker';
     }
 }
