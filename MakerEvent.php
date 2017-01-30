@@ -122,6 +122,13 @@ class MakerEvent
         $makerEvent->onRenderProductDetailBefore($event);
     }
 
+    public function onRenderAdminProductEdit(TemplateEvent $event)
+    {
+        $replacement = $this->app->renderView('ProductExternalLink/Resource/template/admin/product_script.twig');
+        $source = preg_replace('/(\{%\s*block\s+javascript\s*%\})/ui', '$1' . $replacement, $event->getSource());
+        $event->setSource($source);
+    }
+
     /**
      * v3.0.9以降のフックポイントに対応しているのか.
      *

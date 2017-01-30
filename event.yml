@@ -8,6 +8,8 @@ Product/detail.twig:
     - [onRenderProductDetail, NORMAL]
 Product/list.twig:
     - [onRenderProductList, NORMAL]
+Admin/Product/product.twig:
+    - [onRenderAdminProductEdit, NORMAL]
 
 # deprecated event (for v3.0.0 - 3.0.8)
 eccube.event.render.admin_product_product_new.before:
