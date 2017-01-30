@@ -93,6 +93,9 @@ class Maker extends CommonEvent
                     Constant::DISABLED => '有効',
                     Constant::ENABLED => '無効',
                 ),
+                'constraints' => array(
+                    new Assert\NotBlank(),
+                ),
                 'mapped' => false,
             ))
         ;
