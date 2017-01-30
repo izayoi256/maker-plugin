@@ -253,6 +253,7 @@ class Maker extends CommonEvent
 
         $parameters['pel_maker_name'] = $Maker ? $Maker->getName() : '';
         $parameters['pel_maker_url'] = $ProductMaker->getMakerUrl();
+        $parameters['pel_disabled'] = $ProductMaker->isDisabled();
         $parameters['pel_ProductMaker'] = $ProductMaker;
         $event->setParameters($parameters);
         log_info('Event: product maker render success.', array('Product id' => $ProductMaker->getId()));

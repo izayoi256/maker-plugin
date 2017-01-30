@@ -9,6 +9,6 @@
  */
 #}
 
-{% if pel_ProductMaker.other_url|length > 0 %}
+{% if not pel_ProductMaker.disabled and pel_ProductMaker.other_url|length > 0 %}
     <a href="{{ pel_ProductMaker.other_url }}" target="{{ pel_ProductMaker.other_url_target }}">ボタン</a>
 {% endif %}
